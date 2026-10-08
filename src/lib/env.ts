@@ -28,6 +28,8 @@ const envSchema = z.object({
   GOOGLE_WEATHER_API_KEY: z.string().optional(),
   TERMII_API_KEY: z.string().optional(),
   TERMII_SENDER_ID: z.string().default("WeatherDesk"),
+  /** account-specific base URL; default is Termii's NG endpoint */
+  TERMII_BASE_URL: z.string().url().default("https://api.ng.termii.com"),
   RESEND_API_KEY: z.string().optional(),
   EMAIL_FROM: z.string().default("reports@weatherdesk.example"),
   PAYSTACK_SECRET_KEY: z.string().optional(),
@@ -52,7 +54,13 @@ const envSchema = z.object({
 });
 
 function load() {
-  const parsed = envSchema.safeParse(process.env);
+  // dotenv turns `KEY=` lines into empty strings; treat those as unset so
+  // optional enums/urls don't reject them.
+  const cleaned: Record<string, string | undefined> = {};
+  for (const [k, v] of Object.entries(process.env)) {
+    cleaned[k] = v === "" ? undefined : v;
+  }
+  const parsed = envSchema.safeParse(cleaned);
   if (!parsed.success) {
     throw new Error(
       `Invalid environment:\n${parsed.error.issues

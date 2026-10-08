@@ -22,11 +22,13 @@ export type GenerateReportInput = {
  * queue PDF rendering. Returns the report id.
  */
 export async function generateReport(_input: GenerateReportInput): Promise<string> {
+  void _input;
   throw new Error("reports engine not implemented yet (A5)");
 }
 
 /** Render and store the PDF for an existing report; sets reports.pdf_key. */
 export async function renderReportPdf(_reportId: string): Promise<void> {
+  void _reportId;
   throw new Error("reports engine not implemented yet (A5)");
 }
 

@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { execSync } from "node:child_process";
 import { Pool } from "pg";
 import { beforeAll } from "vitest";

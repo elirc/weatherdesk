@@ -1,16 +1,33 @@
-import type { EmailAdapter } from "../types";
-
 /**
- * STUB — implemented by the pipeline agent (A2). Check current provider docs
- * before implementing; record the doc URL here. Throwing is fine: this driver
- * is only reached when the adapter is switched to real mode.
+ * Resend email driver (real).
+ *
+ * Docs (verified 2026-10-08): https://resend.com/docs/api-reference/emails/send-email
+ *   POST https://api.resend.com/emails, Authorization: Bearer <key>
+ *   { from, to[], subject, html, text?, attachments?: [{ filename, content (base64), content_type }] }
+ *   → { id }
  */
-export const resendAdapter: EmailAdapter = new Proxy({} as EmailAdapter, {
-  get(_t, prop) {
-    if (prop === "name") return "resend";
-    if (prop === "maxPointsPerCall") return 1;
-    return () => {
-      throw new Error("Real driver 'resend' not implemented yet");
-    };
+
+import { env } from "@/lib/env";
+import type { EmailAdapter, EmailMessage } from "../types";
+import { fetchJson, tracked } from "./http";
+import { resendBody } from "./mappers/messaging";
+
+const SOURCE = "resend";
+
+export const resendAdapter: EmailAdapter = {
+  name: SOURCE,
+  async send(msg: EmailMessage) {
+    if (!env.RESEND_API_KEY) throw new Error("resend: RESEND_API_KEY is not set");
+    const key = env.RESEND_API_KEY;
+    const res = await tracked(SOURCE, () =>
+      fetchJson<{ id?: string }>(SOURCE, "https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+        body: JSON.stringify(resendBody(msg, env.EMAIL_FROM)),
+        label: "emails",
+      }),
+    );
+    if (!res.id) throw new Error("resend: response has no id");
+    return { id: res.id };
   },
-});
+};

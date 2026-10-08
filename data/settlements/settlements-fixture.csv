@@ -1,0 +1,388 @@
+name,state,lat,lon,kind
+Umuahia,Abia,5.5250,7.4922,capital
+Aba,Abia,5.1066,7.3667,city
+Arochukwu,Abia,5.3833,7.9167,town
+Ohafia,Abia,5.6167,7.8333,town
+Bende,Abia,5.5667,7.6333,town
+Uzuakoli,Abia,5.6333,7.5667,town
+Akwete,Abia,4.9500,7.3500,town
+Isuikwuato,Abia,5.7167,7.4833,town
+Omoba,Abia,5.3333,7.4333,town
+Yola,Adamawa,9.2035,12.4954,capital
+Jimeta,Adamawa,9.2797,12.4583,city
+Mubi,Adamawa,10.2676,13.2644,city
+Numan,Adamawa,9.4667,12.0333,town
+Ganye,Adamawa,8.4333,12.0500,town
+Michika,Adamawa,10.6214,13.3881,town
+Gombi,Adamawa,10.1667,12.7333,town
+Hong,Adamawa,10.2333,12.9333,town
+Song,Adamawa,9.8167,12.6167,town
+Jada,Adamawa,8.7667,12.1500,town
+Mayo-Belwa,Adamawa,9.0500,12.0500,town
+Demsa,Adamawa,9.4500,12.1500,town
+Uyo,Akwa Ibom,5.0377,7.9128,capital
+Eket,Akwa Ibom,4.6423,7.9244,city
+Ikot Ekpene,Akwa Ibom,5.1794,7.7147,city
+Oron,Akwa Ibom,4.8247,8.2347,town
+Abak,Akwa Ibom,4.9833,7.7833,town
+Ikot Abasi,Akwa Ibom,4.5703,7.5611,town
+Etinan,Akwa Ibom,4.8500,7.8500,town
+Itu,Akwa Ibom,5.2000,7.9833,town
+Ibeno,Akwa Ibom,4.5700,8.0300,town
+Awka,Anambra,6.2104,7.0741,capital
+Onitsha,Anambra,6.1667,6.7833,city
+Nnewi,Anambra,6.0167,6.9167,city
+Ekwulobia,Anambra,6.0333,7.0833,town
+Ihiala,Anambra,5.8500,6.8500,town
+Otuocha,Anambra,6.3333,6.8500,town
+Agulu,Anambra,6.1167,7.0667,town
+Nkpor,Anambra,6.1500,6.8500,town
+Ogidi,Anambra,6.1500,6.8667,town
+Abagana,Anambra,6.1833,6.9667,town
+Bauchi,Bauchi,10.3158,9.8442,capital
+Azare,Bauchi,11.6765,10.1948,city
+Misau,Bauchi,11.3136,10.4667,town
+Jama'are,Bauchi,11.6667,9.9333,town
+Ningi,Bauchi,11.0667,9.5667,town
+Alkaleri,Bauchi,10.2667,10.3333,town
+Tafawa Balewa,Bauchi,9.7667,9.5667,town
+Dass,Bauchi,9.9833,9.5167,town
+Darazo,Bauchi,11.0000,10.4167,town
+Toro,Bauchi,10.0667,9.0667,town
+Yenagoa,Bayelsa,4.9267,6.2676,capital
+Brass,Bayelsa,4.3167,6.2333,town
+Ogbia,Bayelsa,4.6833,6.3167,town
+Sagbama,Bayelsa,5.1600,6.2000,town
+Kaiama,Bayelsa,5.1000,6.3000,town
+Amassoma,Bayelsa,4.9667,6.1083,town
+Nembe,Bayelsa,4.5333,6.4000,town
+Ekeremor,Bayelsa,5.0500,5.7833,town
+Makurdi,Benue,7.7322,8.5391,capital
+Gboko,Benue,7.3167,9.0000,city
+Otukpo,Benue,7.1906,8.1300,city
+Katsina-Ala,Benue,7.1667,9.2833,town
+Zaki Biam,Benue,7.5300,9.6000,town
+Vandeikya,Benue,6.7833,9.0667,town
+Oju,Benue,6.8500,8.4167,town
+Adikpo,Benue,6.8833,9.2333,town
+Aliade,Benue,7.3000,8.4833,town
+Ugbokpo,Benue,7.6500,7.8833,town
+Okpoga,Benue,7.0300,7.8100,town
+Maiduguri,Borno,11.8333,13.1500,capital
+Biu,Borno,10.6111,12.1946,city
+Bama,Borno,11.5221,13.6856,town
+Dikwa,Borno,12.0333,13.9167,town
+Gwoza,Borno,11.0833,13.6917,town
+Monguno,Borno,12.6703,13.6125,town
+Konduga,Borno,11.6500,13.4167,town
+Damboa,Borno,11.1500,12.7500,town
+Gamboru,Borno,12.3700,14.2100,town
+Kukawa,Borno,12.9236,13.5656,town
+Askira,Borno,10.6500,12.9000,town
+Calabar,Cross River,4.9757,8.3417,capital
+Ikom,Cross River,5.9667,8.7167,city
+Ogoja,Cross River,6.6584,8.7992,town
+Obudu,Cross River,6.6667,9.1667,town
+Ugep,Cross River,5.8000,8.0833,town
+Akamkpa,Cross River,5.3167,8.3500,town
+Obubra,Cross River,6.0833,8.3333,town
+Odukpani,Cross River,5.1333,8.3500,town
+Asaba,Delta,6.1983,6.7319,capital
+Warri,Delta,5.5167,5.7500,city
+Sapele,Delta,5.8941,5.6767,city
+Ughelli,Delta,5.4897,5.9918,city
+Agbor,Delta,6.2541,6.1931,town
+Ozoro,Delta,5.5333,6.2167,town
+Kwale,Delta,5.7000,6.4333,town
+Oleh,Delta,5.4500,6.2000,town
+Burutu,Delta,5.3500,5.5167,town
+Effurun,Delta,5.5622,5.7861,town
+Abraka,Delta,5.7833,6.1000,town
+Ogwashi-Uku,Delta,6.1833,6.5167,town
+Bomadi,Delta,5.1667,5.9167,town
+Oghara,Delta,5.9333,5.6667,town
+Abakaliki,Ebonyi,6.3249,8.1137,capital
+Afikpo,Ebonyi,5.8925,7.9354,city
+Onueke,Ebonyi,6.1500,8.0500,town
+Uburu,Ebonyi,6.0500,7.7500,town
+Ezzamgbo,Ebonyi,6.4000,7.9500,town
+Edda,Ebonyi,5.8000,7.9500,town
+Onicha,Ebonyi,6.0667,7.8333,town
+Ndufu-Alike,Ebonyi,6.0667,8.2000,town
+Benin City,Edo,6.3350,5.6037,capital
+Auchi,Edo,7.0667,6.2667,city
+Ekpoma,Edo,6.7500,6.1333,town
+Uromi,Edo,6.7000,6.3333,town
+Igarra,Edo,7.2833,6.1000,town
+Irrua,Edo,6.7333,6.2167,town
+Ubiaja,Edo,6.6500,6.3833,town
+Agenebode,Edo,7.1000,6.6833,town
+Igueben,Edo,6.6000,6.2500,town
+Afuze,Edo,7.1000,5.9000,town
+Okada,Edo,6.7333,5.3833,town
+Fugar,Edo,7.1000,6.5000,town
+Ado-Ekiti,Ekiti,7.6233,5.2209,capital
+Ikere-Ekiti,Ekiti,7.4991,5.2319,city
+Ijero-Ekiti,Ekiti,7.8167,5.0667,town
+Ikole-Ekiti,Ekiti,7.7833,5.5167,town
+Ise-Ekiti,Ekiti,7.4667,5.4167,town
+Efon-Alaaye,Ekiti,7.6500,4.9167,town
+Omuo-Ekiti,Ekiti,7.7500,5.7167,town
+Emure-Ekiti,Ekiti,7.4333,5.4667,town
+Oye-Ekiti,Ekiti,7.8000,5.3333,town
+Ido-Ekiti,Ekiti,7.8500,5.1833,town
+Aramoko-Ekiti,Ekiti,7.7000,5.0500,town
+Enugu,Enugu,6.4413,7.4988,capital
+Nsukka,Enugu,6.8567,7.3958,city
+Oji River,Enugu,6.2667,7.2667,town
+Agbani,Enugu,6.3000,7.5500,town
+Udi,Enugu,6.3167,7.4333,town
+Awgu,Enugu,6.0833,7.4833,town
+Obollo-Afor,Enugu,6.9167,7.5167,town
+Ngwo,Enugu,6.4333,7.4167,town
+Enugu-Ezike,Enugu,6.9833,7.4500,town
+Ikem,Enugu,6.7833,7.7167,town
+Abuja,Federal Capital Territory,9.0579,7.4951,capital
+Gwagwalada,Federal Capital Territory,8.9428,7.0839,town
+Kuje,Federal Capital Territory,8.8794,7.2276,town
+Bwari,Federal Capital Territory,9.2833,7.3833,town
+Kubwa,Federal Capital Territory,9.1500,7.3333,town
+Abaji,Federal Capital Territory,8.4667,6.9500,town
+Kwali,Federal Capital Territory,8.8833,7.0000,town
+Garki,Federal Capital Territory,9.0333,7.4833,town
+Gombe,Gombe,10.2897,11.1673,capital
+Kaltungo,Gombe,9.8167,11.3000,town
+Billiri,Gombe,9.8667,11.2333,town
+Dukku,Gombe,10.8167,10.7667,town
+Bajoga,Gombe,10.8500,11.4333,town
+Kumo,Gombe,10.0500,11.2167,town
+Nafada,Gombe,11.0833,11.3333,town
+Deba,Gombe,10.2167,11.3833,town
+Owerri,Imo,5.4836,7.0333,capital
+Orlu,Imo,5.7957,7.0351,city
+Okigwe,Imo,5.8293,7.3496,city
+Oguta,Imo,5.7136,6.8031,town
+Mgbidi,Imo,5.7333,6.9000,town
+Nkwerre,Imo,5.7500,7.1000,town
+Awo-Omamma,Imo,5.6500,6.9500,town
+Ahiara,Imo,5.5333,7.2667,town
+Mbaise,Imo,5.4833,7.2333,town
+Dutse,Jigawa,11.7562,9.3381,capital
+Hadejia,Jigawa,12.4536,10.0425,city
+Kazaure,Jigawa,12.6500,8.4167,town
+Gumel,Jigawa,12.6333,9.3833,town
+Birnin Kudu,Jigawa,11.4500,9.4833,town
+Ringim,Jigawa,12.1500,9.1667,town
+Kafin Hausa,Jigawa,12.2333,9.9167,town
+Babura,Jigawa,12.7667,9.0167,town
+Maigatari,Jigawa,12.8075,9.4453,town
+Gwaram,Jigawa,11.2833,9.8833,town
+Kiyawa,Jigawa,11.7833,9.6000,town
+Kaduna,Kaduna,10.5222,7.4383,capital
+Zaria,Kaduna,11.0855,7.7199,city
+Kafanchan,Kaduna,9.5833,8.3000,town
+Saminaka,Kaduna,10.4167,8.6833,town
+Birnin Gwari,Kaduna,10.7800,6.5300,town
+Ikara,Kaduna,11.1833,8.2167,town
+Zonkwa,Kaduna,9.7833,8.2833,town
+Kagoro,Kaduna,9.6000,8.3833,town
+Kachia,Kaduna,9.8667,7.9500,town
+Soba,Kaduna,10.9833,8.0667,town
+Giwa,Kaduna,11.2667,7.4333,town
+Kwoi,Kaduna,9.4500,8.0000,town
+Kujama,Kaduna,10.4500,7.6000,town
+Kano,Kano,12.0022,8.5920,capital
+Wudil,Kano,11.8167,8.8500,town
+Gaya,Kano,11.8667,9.0000,town
+Rano,Kano,11.5500,8.5833,town
+Bichi,Kano,12.2333,8.2333,town
+Gwarzo,Kano,11.9167,7.9333,town
+Dambatta,Kano,12.4333,8.5167,town
+Kura,Kano,11.7667,8.4333,town
+Kunchi,Kano,12.5000,8.2667,town
+Sumaila,Kano,11.5333,8.9500,town
+Tudun Wada,Kano,11.2500,8.4000,town
+Karaye,Kano,11.7833,8.0167,town
+Katsina,Katsina,12.9908,7.6018,capital
+Funtua,Katsina,11.5233,7.3081,city
+Daura,Katsina,13.0333,8.3167,city
+Malumfashi,Katsina,11.7833,7.6167,town
+Dutsin-Ma,Katsina,12.4500,7.4833,town
+Kankia,Katsina,12.5500,7.8167,town
+Jibia,Katsina,13.0833,7.2333,town
+Kankara,Katsina,11.9333,7.4167,town
+Musawa,Katsina,12.1333,7.6667,town
+Mashi,Katsina,12.9833,7.9500,town
+Mani,Katsina,12.8667,7.8500,town
+Birnin Kebbi,Kebbi,12.4539,4.1975,capital
+Argungu,Kebbi,12.7448,4.5251,town
+Yauri,Kebbi,10.8800,4.7500,town
+Zuru,Kebbi,11.4333,5.2333,town
+Jega,Kebbi,12.2167,4.3833,town
+Koko,Kebbi,11.4239,4.5172,town
+Bagudo,Kebbi,11.4167,4.2167,town
+Kamba,Kebbi,11.8500,3.6667,town
+Gwandu,Kebbi,12.5000,4.6500,town
+Lokoja,Kogi,7.8023,6.7333,capital
+Okene,Kogi,7.5500,6.2333,city
+Idah,Kogi,7.1167,6.7333,town
+Kabba,Kogi,7.8333,6.0667,town
+Anyigba,Kogi,7.4833,7.1667,town
+Ankpa,Kogi,7.3667,7.6333,town
+Dekina,Kogi,7.6833,7.0333,town
+Ajaokuta,Kogi,7.5500,6.6500,town
+Isanlu,Kogi,8.2700,5.8000,town
+Koton Karfe,Kogi,8.0942,6.7954,town
+Ilorin,Kwara,8.4966,4.5421,capital
+Offa,Kwara,8.1491,4.7207,city
+Omu-Aran,Kwara,8.1333,5.1000,town
+Jebba,Kwara,9.1333,4.8333,town
+Lafiagi,Kwara,8.8500,5.4167,town
+Patigi,Kwara,8.7167,5.7500,town
+Kaiama,Kwara,9.6167,3.9500,town
+Bode Saadu,Kwara,8.9400,4.7800,town
+Share,Kwara,8.8167,5.0333,town
+Ikeja,Lagos,6.6018,3.3515,capital
+Lagos Island,Lagos,6.4541,3.3947,city
+Ikorodu,Lagos,6.6194,3.5105,city
+Epe,Lagos,6.5841,3.9834,town
+Badagry,Lagos,6.4152,2.8813,town
+Lekki,Lagos,6.4474,3.4727,city
+Ajah,Lagos,6.4667,3.5667,town
+Surulere,Lagos,6.5000,3.3500,city
+Apapa,Lagos,6.4489,3.3594,city
+Mushin,Lagos,6.5333,3.3500,city
+Agege,Lagos,6.6167,3.3167,city
+Ojo,Lagos,6.4667,3.1833,town
+Yaba,Lagos,6.5095,3.3711,city
+Oshodi,Lagos,6.5550,3.3437,city
+Ikotun,Lagos,6.5500,3.2667,town
+Lafia,Nasarawa,8.4939,8.5153,capital
+Keffi,Nasarawa,8.8486,7.8736,city
+Akwanga,Nasarawa,8.9167,8.4000,town
+Nasarawa,Nasarawa,8.5389,7.7083,town
+Doma,Nasarawa,8.3967,8.3583,town
+Obi,Nasarawa,8.3667,8.7667,town
+Wamba,Nasarawa,8.9333,8.6000,town
+Keana,Nasarawa,8.1500,8.8000,town
+Awe,Nasarawa,8.1000,9.1333,town
+Nasarawa Eggon,Nasarawa,8.7167,8.5333,town
+Toto,Nasarawa,8.3833,7.0833,town
+Minna,Niger,9.6139,6.5569,capital
+Bida,Niger,9.0833,6.0167,city
+Suleja,Niger,9.1806,7.1794,city
+Kontagora,Niger,10.4000,5.4667,city
+New Bussa,Niger,9.8833,4.5000,town
+Lapai,Niger,9.0500,6.5667,town
+Mokwa,Niger,9.2833,5.0500,town
+Rijau,Niger,11.1000,5.2500,town
+Zungeru,Niger,9.8000,6.1500,town
+Kutigi,Niger,9.2000,5.6000,town
+Paiko,Niger,9.4333,6.6333,town
+Agaie,Niger,9.0000,6.3167,town
+Abeokuta,Ogun,7.1475,3.3619,capital
+Ijebu-Ode,Ogun,6.8194,3.9173,city
+Sagamu,Ogun,6.8322,3.6319,city
+Ota,Ogun,6.6833,3.2333,city
+Ilaro,Ogun,6.8833,3.0167,town
+Ifo,Ogun,6.8167,3.2000,town
+Ijebu-Igbo,Ogun,6.9667,3.9833,town
+Ayetoro,Ogun,7.2333,3.0500,town
+Odogbolu,Ogun,6.8333,3.7667,town
+Ikenne,Ogun,6.8667,3.7167,town
+Ago-Iwoye,Ogun,6.9500,3.9167,town
+Akure,Ondo,7.2526,5.1931,capital
+Ondo,Ondo,7.1000,4.8333,city
+Owo,Ondo,7.1962,5.5868,city
+Ikare-Akoko,Ondo,7.5300,5.7600,town
+Okitipupa,Ondo,6.5000,4.7833,town
+Ore,Ondo,6.7500,4.8800,town
+Igbokoda,Ondo,6.3500,4.8000,town
+Idanre,Ondo,7.1000,5.1167,town
+Ile-Oluji,Ondo,7.2000,4.8667,town
+Oka-Akoko,Ondo,7.4500,5.8000,town
+Irele,Ondo,6.5000,4.8700,town
+Osogbo,Osun,7.7827,4.5418,capital
+Ile-Ife,Osun,7.4824,4.5603,city
+Ilesa,Osun,7.6167,4.7333,city
+Ede,Osun,7.7333,4.4333,city
+Iwo,Osun,7.6333,4.1833,city
+Ikirun,Osun,7.9167,4.6667,town
+Ila-Orangun,Osun,8.0167,4.9000,town
+Ikire,Osun,7.3667,4.1833,town
+Ejigbo,Osun,7.9000,4.3167,town
+Gbongan,Osun,7.4833,4.3500,town
+Ibadan,Oyo,7.3964,3.9167,capital
+Ogbomosho,Oyo,8.1333,4.2500,city
+Oyo,Oyo,7.8500,3.9333,city
+Iseyin,Oyo,7.9667,3.6000,city
+Saki,Oyo,8.6667,3.3833,town
+Igboho,Oyo,8.8333,3.7500,town
+Kishi,Oyo,9.0833,3.8500,town
+Igbo-Ora,Oyo,7.4333,3.2833,town
+Eruwa,Oyo,7.5333,3.4167,town
+Okeho,Oyo,8.0333,3.3500,town
+Lanlate,Oyo,7.6000,3.4333,town
+Jos,Plateau,9.8965,8.8583,capital
+Bukuru,Plateau,9.7833,8.8667,town
+Pankshin,Plateau,9.3333,9.4333,town
+Shendam,Plateau,8.8833,9.5333,town
+Langtang,Plateau,9.1417,9.7917,town
+Barkin Ladi,Plateau,9.5333,8.9000,town
+Bokkos,Plateau,9.3000,9.0000,town
+Mangu,Plateau,9.5167,9.1000,town
+Wase,Plateau,9.0944,10.0000,town
+Vom,Plateau,9.7333,8.7833,town
+Port Harcourt,Rivers,4.7774,7.0134,capital
+Bonny,Rivers,4.4333,7.1667,town
+Degema,Rivers,4.7500,6.7667,town
+Ahoada,Rivers,5.0833,6.6500,town
+Omoku,Rivers,5.3333,6.6500,town
+Bori,Rivers,4.6667,7.3667,town
+Okrika,Rivers,4.7333,7.0833,town
+Buguma,Rivers,4.7333,6.8667,town
+Elele,Rivers,5.1000,6.8167,town
+Onne,Rivers,4.7167,7.1500,town
+Rumuokoro,Rivers,4.8700,7.0000,town
+Opobo,Rivers,4.5167,7.5333,town
+Sokoto,Sokoto,13.0622,5.2339,capital
+Gwadabawa,Sokoto,13.3500,5.2333,town
+Wurno,Sokoto,13.3000,5.4167,town
+Tambuwal,Sokoto,12.4000,4.6500,town
+Illela,Sokoto,13.7333,5.3000,town
+Isa,Sokoto,13.2000,6.4000,town
+Goronyo,Sokoto,13.4333,5.6667,town
+Bodinga,Sokoto,12.8667,5.1667,town
+Sabon Birni,Sokoto,13.5700,6.2500,town
+Jalingo,Taraba,8.8833,11.3667,capital
+Wukari,Taraba,7.8667,9.7833,city
+Takum,Taraba,7.2667,9.9833,town
+Bali,Taraba,7.8500,10.9667,town
+Gembu,Taraba,6.7000,11.2500,town
+Serti,Taraba,7.5000,11.3667,town
+Zing,Taraba,8.9833,11.7500,town
+Ibi,Taraba,8.1833,9.7500,town
+Donga,Taraba,7.7167,10.0500,town
+Mutum Biyu,Taraba,8.6500,10.7800,town
+Karim Lamido,Taraba,9.3167,11.1833,town
+Damaturu,Yobe,11.7470,11.9608,capital
+Potiskum,Yobe,11.7091,11.0694,city
+Gashua,Yobe,12.8681,11.0461,city
+Nguru,Yobe,12.8792,10.4526,city
+Geidam,Yobe,12.8944,11.9265,town
+Fika,Yobe,11.2833,11.3000,town
+Buni Yadi,Yobe,11.2667,12.0167,town
+Machina,Yobe,13.1333,10.0500,town
+Dapchi,Yobe,12.4600,11.4800,town
+Yusufari,Yobe,13.0667,11.1667,town
+Gusau,Zamfara,12.1628,6.6614,capital
+Kaura Namoda,Zamfara,12.5933,6.5867,city
+Talata Mafara,Zamfara,12.5667,6.0667,town
+Anka,Zamfara,12.1100,5.9300,town
+Tsafe,Zamfara,11.9500,6.9167,town
+Bungudu,Zamfara,12.2667,6.5667,town
+Maru,Zamfara,12.3333,6.4000,town
+Shinkafi,Zamfara,13.0700,6.5000,town
+Zurmi,Zamfara,12.7667,6.7833,town
+Bakura,Zamfara,12.7000,5.8833,town
+Gummi,Zamfara,12.1500,5.1167,town
