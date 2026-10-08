@@ -1,0 +1,61 @@
+services:
+  db:
+    image: postgis/postgis:18-3.6
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: weatherdesk_dev
+    ports:
+      - "5440:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+      - ./docker/initdb:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d weatherdesk_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: web
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/weatherdesk_dev
+      APP_URL: http://localhost:3000
+      BETTER_AUTH_URL: http://localhost:3000
+      BETTER_AUTH_SECRET: dev-secret-change-me-32-chars-min!!
+      WD_MODE: mock
+      STORAGE_DRIVER: local
+      STORAGE_LOCAL_DIR: /app/storage
+      NEXT_PUBLIC_MAP_STYLE_URL: https://tiles.openfreemap.org/styles/liberty
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - storage:/app/storage
+    depends_on:
+      db:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: worker
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/weatherdesk_dev
+      APP_URL: http://localhost:3000
+      WD_MODE: mock
+      STORAGE_DRIVER: local
+      STORAGE_LOCAL_DIR: /app/storage
+    volumes:
+      - storage:/app/storage
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  dbdata:
+  storage:
