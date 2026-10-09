@@ -1,6 +1,7 @@
 import "server-only";
 import { cacheLife } from "next/cache";
 import { geoMercator, geoPath, type GeoPermissibleObjects } from "d3-geo";
+import { d3Winding } from "@/reports/svg-maps";
 import { getNationalLgaCollection, getStatesCollection } from "@/server/queries/geo";
 
 /**
@@ -20,17 +21,29 @@ async function baseLayer(): Promise<Base> {
   "use cache";
   cacheLife("days");
   const [st, lg] = await Promise.all([getStatesCollection(), getNationalLgaCollection()]);
-  // d3-geo expects @types/geojson shapes; ours are structurally identical (src/lib/geo/types.ts).
-  const projection = geoMercator().fitSize([W, H], st as unknown as GeoPermissibleObjects & { type: "FeatureCollection" });
+  // d3-geo expects @types/geojson shapes; ours are structurally identical
+  // (src/lib/geo/types.ts) — but RFC 7946 ring winding must be reversed for
+  // d3's spherical model or a polygon fills the whole world (d3Winding).
+  const feat = (geometry: unknown): GeoPermissibleObjects =>
+    ({
+      type: "Feature",
+      properties: {},
+      geometry: d3Winding(geometry as Parameters<typeof d3Winding>[0]),
+    }) as unknown as GeoPermissibleObjects;
+  const stFixed = {
+    type: "FeatureCollection",
+    features: st.features.map((f) => feat(f.geometry)),
+  } as unknown as GeoPermissibleObjects & { type: "FeatureCollection" };
+  const projection = geoMercator().fitSize([W, H], stFixed);
   const path = geoPath(projection).digits(1);
   const states = st.features.map((f) => ({
     name: f.properties.name,
-    d: path(f as unknown as GeoPermissibleObjects) ?? "",
+    d: path(feat(f.geometry)) ?? "",
   }));
   const lgaPaths: Base["lgaPaths"] = {};
   for (const f of lg.features) {
     lgaPaths[f.properties.id] = {
-      d: path(f as unknown as GeoPermissibleObjects) ?? "",
+      d: path(feat(f.geometry)) ?? "",
       name: f.properties.name,
       slug: f.properties.slug,
     };

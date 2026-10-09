@@ -187,19 +187,24 @@ export function PlacePicker() {
 
 export function AlertsToggle({ id, enabled }: { id: string; enabled: boolean }) {
   const router = useRouter();
-  const [pending, start] = useTransition();
+  const [, start] = useTransition();
+  // optimistic: flip immediately, revert if the action fails
+  const [checked, setChecked] = useState(enabled);
   return (
     <label className="flex items-center gap-2 text-sm">
       <Switch
-        checked={enabled}
-        disabled={pending}
-        onCheckedChange={(v) =>
+        checked={checked}
+        onCheckedChange={(v) => {
+          setChecked(v);
           start(async () => {
             const res = await togglePlaceAlertsAction({ id, enabled: v });
-            if (!res.ok) toast.error(res.error);
+            if (!res.ok) {
+              setChecked(!v);
+              toast.error(res.error);
+            }
             router.refresh();
-          })
-        }
+          });
+        }}
         aria-label="Advisory alerts"
       />
       Alerts
