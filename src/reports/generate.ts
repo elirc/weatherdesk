@@ -4,6 +4,9 @@
  * worker (A2) and seed steps can compile against them from day one.
  */
 
+import { JOBS, sendJob } from "@/lib/queue";
+import { generateReportCore, listReportScopesCore, renderReportPdfCore } from "./publish";
+
 export type ReportPhase = "preliminary" | "final";
 
 export type GenerateReportInput = {
@@ -21,18 +24,21 @@ export type GenerateReportInput = {
  * Compute content, fill narrative templates, upsert the reports row and
  * queue PDF rendering. Returns the report id.
  */
-export async function generateReport(_input: GenerateReportInput): Promise<string> {
-  void _input;
-  throw new Error("reports engine not implemented yet (A5)");
+export async function generateReport(input: GenerateReportInput): Promise<string> {
+  const { id } = await generateReportCore(input);
+  await sendJob(JOBS.reportRenderPdf, { reportId: id }, { retryLimit: 2, retryDelay: 60, retryBackoff: true, singletonKey: `pdf:${id}` });
+  return id;
 }
 
-/** Render and store the PDF for an existing report; sets reports.pdf_key. */
-export async function renderReportPdf(_reportId: string): Promise<void> {
-  void _reportId;
-  throw new Error("reports engine not implemented yet (A5)");
+/**
+ * Render and store the PDF for an existing report; sets reports.pdf_key.
+ * For national public reports this also notifies report subscribers (once).
+ */
+export async function renderReportPdf(reportId: string): Promise<void> {
+  await renderReportPdfCore(reportId, { notify: true });
 }
 
 /** All scopeKeys a scheduled run must cover: national + every state + every active custom area. */
 export async function listReportScopes(): Promise<string[]> {
-  throw new Error("reports engine not implemented yet (A5)");
+  return listReportScopesCore();
 }

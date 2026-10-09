@@ -1,3 +1,4 @@
+import type { EmailMessage } from "@/adapters/types";
 import { formatLagosDate, lagosMidnightUtc } from "@/lib/time";
 
 /**
@@ -13,13 +14,62 @@ import { formatLagosDate, lagosMidnightUtc } from "@/lib/time";
 export const DISCLAIMER = "Independent service - not affiliated with NiMet. Advisories are not official warnings.";
 export const SMS_DISCLAIMER = "Not an official NiMet warning.";
 
+/** Stored-file reference for an email attachment (A5 sets it only for PDFs < 2 MB). */
+export type AttachmentRef = { key: string; filename: string; contentType: string };
+
+/**
+ * Binding payload convention (A5 report notifications use all fields):
+ * { subject?, text, html?, to?, reportId?, url?, pdfUrl?, attachment? }
+ */
 export type NotificationPayload = {
   subject?: string;
   text: string;
   html?: string;
   to?: string;
+  reportId?: string;
+  url?: string;
+  pdfUrl?: string;
+  attachment?: AttachmentRef;
   [k: string]: unknown;
 };
+
+/** The payload's attachment reference, or null when absent or malformed (never throws). */
+export function attachmentRef(payload: NotificationPayload): AttachmentRef | null {
+  const a = payload.attachment as Partial<AttachmentRef> | null | undefined;
+  if (!a || typeof a !== "object") return null;
+  if (typeof a.key !== "string" || !a.key) return null;
+  if (typeof a.filename !== "string" || !a.filename) return null;
+  return {
+    key: a.key,
+    filename: a.filename,
+    // "" → buildEmailMessage falls back to the stored object's content type
+    contentType: typeof a.contentType === "string" ? a.contentType : "",
+  };
+}
+
+/**
+ * Payload → EmailMessage. `file` is the storage read for the payload's
+ * attachment: when it is null (missing object / no attachment) the email goes
+ * out without one — the text already carries the PDF link.
+ */
+export function buildEmailMessage(
+  payload: NotificationPayload,
+  to: string,
+  appUrl: string,
+  file: { content: Buffer; contentType: string } | null,
+): EmailMessage {
+  const subject = payload.subject ?? "WeatherDesk";
+  const ref = attachmentRef(payload);
+  return {
+    to,
+    subject,
+    text: payload.text,
+    html: payload.html ?? renderEmailHtml(subject, payload.text, appUrl),
+    ...(ref && file
+      ? { attachments: [{ filename: ref.filename, content: file.content, contentType: ref.contentType || file.contentType }] }
+      : {}),
+  };
+}
 
 export function parsePayload(p: unknown): NotificationPayload {
   if (!p || typeof p !== "object") throw new Error("notification payload is not an object");
