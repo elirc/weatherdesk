@@ -1,0 +1,1153 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "WeatherDesk API",
+    "version": "1.0.0",
+    "summary": "Forecasts, observed history, climate normals, advisories and reports for every Nigerian LGA.",
+    "description": "All responses use the envelope `{ data, meta: { source, fetchedAt, attribution } }`; errors are `{ error: { code, message } }`. Authenticate with `Authorization: Bearer wd_live_…` (create keys under Organisations → API keys). Without a key you get an unauthenticated preview limited to 60 requests/minute per IP, flagged by the `X-WeatherDesk-Notice` header. Keyed requests count against your plan's daily quota (resets at midnight Africa/Lagos) and a per-minute burst limit. Dates are Africa/Lagos civil dates (YYYY-MM-DD); timestamps are ISO-8601 UTC. Independent service — not affiliated with NiMet. Advisories are not official warnings.",
+    "contact": {
+      "name": "WeatherDesk"
+    }
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "This deployment"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    },
+    {}
+  ],
+  "tags": [
+    {
+      "name": "Forecast"
+    },
+    {
+      "name": "Climate"
+    },
+    {
+      "name": "Advisories"
+    },
+    {
+      "name": "Reports"
+    }
+  ],
+  "paths": {
+    "/api/v1/forecast": {
+      "get": {
+        "tags": [
+          "Forecast"
+        ],
+        "operationId": "getForecast",
+        "summary": "16-day daily forecast (optionally 48 h hourly)",
+        "description": "Give either `lga` or `lat`+`lon`. Points resolve to the 0.1° grid cell containing them; a point never requested before is queued for activation and may return 404 for a few minutes.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/lgaOptional"
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "required": false,
+            "description": "Latitude (4.0–14.1). Requires lon.",
+            "schema": {
+              "type": "number",
+              "minimum": 4,
+              "maximum": 14.1
+            },
+            "example": 6.6018
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "required": false,
+            "description": "Longitude (2.5–15.0). Requires lat.",
+            "schema": {
+              "type": "number",
+              "minimum": 2.5,
+              "maximum": 15
+            },
+            "example": 3.3515
+          },
+          {
+            "name": "hourly",
+            "in": "query",
+            "required": false,
+            "description": "Include the next 48 hourly rows.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Forecast",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-Quota-Limit": {
+                "$ref": "#/components/headers/X-Quota-Limit"
+              },
+              "X-Quota-Remaining": {
+                "$ref": "#/components/headers/X-Quota-Remaining"
+              },
+              "X-WeatherDesk-Notice": {
+                "$ref": "#/components/headers/X-WeatherDesk-Notice"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "place",
+                        "daily"
+                      ],
+                      "properties": {
+                        "place": {
+                          "type": "object",
+                          "description": "Resolved place (kind lga or point)."
+                        },
+                        "daily": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ForecastDay"
+                          }
+                        },
+                        "hourly": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ForecastHour"
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/api/v1/history": {
+      "get": {
+        "tags": [
+          "Climate"
+        ],
+        "operationId": "getHistory",
+        "summary": "Observed daily values (max 1 year per request)",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/lgaRequired"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2026-01-01"
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "description": "Inclusive; at most 366 days after from.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2026-03-31"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Observed days",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-Quota-Limit": {
+                "$ref": "#/components/headers/X-Quota-Limit"
+              },
+              "X-Quota-Remaining": {
+                "$ref": "#/components/headers/X-Quota-Remaining"
+              },
+              "X-WeatherDesk-Notice": {
+                "$ref": "#/components/headers/X-WeatherDesk-Notice"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "place": {
+                          "type": "object"
+                        },
+                        "from": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "to": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "days": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ObservedDay"
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/api/v1/normals": {
+      "get": {
+        "tags": [
+          "Climate"
+        ],
+        "operationId": "getNormals",
+        "summary": "1991–2020 monthly normals and rainy-season timing",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/lgaRequired"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Normals",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-Quota-Limit": {
+                "$ref": "#/components/headers/X-Quota-Limit"
+              },
+              "X-Quota-Remaining": {
+                "$ref": "#/components/headers/X-Quota-Remaining"
+              },
+              "X-WeatherDesk-Notice": {
+                "$ref": "#/components/headers/X-WeatherDesk-Notice"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "place": {
+                          "type": "object"
+                        },
+                        "period": {
+                          "type": "object",
+                          "properties": {
+                            "startYear": {
+                              "type": "integer"
+                            },
+                            "endYear": {
+                              "type": "integer"
+                            }
+                          }
+                        },
+                        "monthly": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/MonthlyNormal"
+                          }
+                        },
+                        "season": {
+                          "oneOf": [
+                            {
+                              "$ref": "#/components/schemas/SeasonNormal"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/api/v1/alerts": {
+      "get": {
+        "tags": [
+          "Advisories"
+        ],
+        "operationId": "listAlerts",
+        "summary": "Automatic weather advisories (not official warnings)",
+        "description": "Filter by `state` or `lga` (not both). `active=true` (default) returns advisories that have not yet expired; `active=false` also includes those that ended in the last 30 days.",
+        "parameters": [
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "description": "ISO 3166-2 state code.",
+            "schema": {
+              "type": "string",
+              "pattern": "^NG-[A-Za-z]{2}$"
+            },
+            "example": "NG-KD"
+          },
+          {
+            "$ref": "#/components/parameters/lgaOptional"
+          },
+          {
+            "name": "active",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Advisories",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-Quota-Limit": {
+                "$ref": "#/components/headers/X-Quota-Limit"
+              },
+              "X-Quota-Remaining": {
+                "$ref": "#/components/headers/X-Quota-Remaining"
+              },
+              "X-WeatherDesk-Notice": {
+                "$ref": "#/components/headers/X-WeatherDesk-Notice"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Alert"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/api/v1/reports": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "listReports",
+        "summary": "Published weekly / monthly reports with PDF links",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "weekly",
+                "monthly"
+              ]
+            }
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "required": false,
+            "description": "`national` or a state code such as NG-LA.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "national"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reports, newest period first",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-Quota-Limit": {
+                "$ref": "#/components/headers/X-Quota-Limit"
+              },
+              "X-Quota-Remaining": {
+                "$ref": "#/components/headers/X-Quota-Remaining"
+              },
+              "X-WeatherDesk-Notice": {
+                "$ref": "#/components/headers/X-WeatherDesk-Notice"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Report"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "wd_live_<40 hex>",
+        "description": "Organisation API key."
+      }
+    },
+    "parameters": {
+      "lgaRequired": {
+        "name": "lga",
+        "in": "query",
+        "required": true,
+        "description": "LGA code (geoBoundaries shapeID) or LGA slug, e.g. ikeja.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "ikeja"
+      },
+      "lgaOptional": {
+        "name": "lga",
+        "in": "query",
+        "required": false,
+        "description": "LGA code (geoBoundaries shapeID) or LGA slug, e.g. ikeja.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "ikeja"
+      }
+    },
+    "headers": {
+      "X-RateLimit-Limit": {
+        "description": "Requests allowed per minute (anonymous: per IP; keyed: burst limit).",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "X-RateLimit-Remaining": {
+        "description": "Requests left in the current minute.",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "X-RateLimit-Reset": {
+        "description": "Seconds until the minute window resets.",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "X-Quota-Limit": {
+        "description": "Keyed only: plan calls per day.",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "X-Quota-Remaining": {
+        "description": "Keyed only: calls left today (Africa/Lagos).",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "X-WeatherDesk-Notice": {
+        "description": "Present on unauthenticated preview responses.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Invalid parameters",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Malformed, unknown or revoked API key",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Unknown place, or no data yet",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "Per-minute limit (`rate_limited`) or daily quota (`quota_exceeded`) exceeded. See Retry-After.",
+        "headers": {
+          "Retry-After": {
+            "description": "Seconds to wait.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Meta": {
+        "type": "object",
+        "required": [
+          "source",
+          "fetchedAt",
+          "attribution"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "description": "Provider / derivation, e.g. open-meteo, nasa_power, computed, mock."
+          },
+          "fetchedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "When the newest underlying value was fetched or computed."
+          },
+          "attribution": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "bad_request",
+                  "unauthorized",
+                  "forbidden",
+                  "not_found",
+                  "rate_limited",
+                  "quota_exceeded",
+                  "internal"
+                ]
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ForecastDay": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "tmaxC": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "tminC": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "rainMm": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "rainProbPct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "windMaxKmh": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "gustsMaxKmh": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "uvIndexMax": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "weatherCode": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "WMO weather code."
+          },
+          "sunrise": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "sunset": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "source": {
+            "type": "string"
+          },
+          "fetchedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ForecastHour": {
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "temperatureC": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "feelsLikeC": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "humidityPct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "rainMm": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "rainProbPct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "windSpeedKmh": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "windGustsKmh": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "windDirectionDeg": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "cloudCoverPct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "weatherCode": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "uvIndex": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "source": {
+            "type": "string"
+          },
+          "fetchedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ObservedDay": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "rainMm": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "tmaxC": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "tminC": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "humidityPct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "windKmh": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "description": "nasa_power (final) or model_estimate."
+          },
+          "preliminary": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MonthlyNormal": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12
+          },
+          "rainMm": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "rainyDays": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "Days with ≥ 1.0 mm."
+          },
+          "tmaxC": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "tminC": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        }
+      },
+      "SeasonNormal": {
+        "type": "object",
+        "properties": {
+          "onsetDoy": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "cessationDoy": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "seasonLengthDays": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "method": {
+            "type": "string"
+          }
+        }
+      },
+      "Alert": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "heavy_rain",
+              "heat",
+              "wind",
+              "dry_spell"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "moderate",
+              "high"
+            ]
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "text": {
+            "type": "string"
+          },
+          "issuedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lga": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "state": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "official": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      },
+      "Report": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "weekly",
+              "monthly"
+            ]
+          },
+          "scope": {
+            "type": "string",
+            "description": "national or a state code."
+          },
+          "scopeName": {
+            "type": "string"
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "date"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "date"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "preliminary",
+              "final"
+            ]
+          },
+          "publishedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "correctionNote": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "pdfUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    }
+  }
+}

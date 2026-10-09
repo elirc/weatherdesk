@@ -41,7 +41,7 @@ pnpm worker:dev                  # queue worker (separate terminal)
 
 Or everything in containers: `docker compose up` then `docker compose exec web pnpm seed`.
 
-In mock mode every provider adapter returns deterministic fixtures and no external call is made. The app **refuses to start in production with mock auth enabled**.
+In mock mode every provider adapter returns deterministic fixtures and no external call is made. The app **refuses to start in production with mock auth enabled** — this includes `pnpm build` (which runs with `NODE_ENV=production`): if your dev `.env` sets `AUTH_MOCK=true` for the quick sign-in card and e2e, build with `AUTH_MOCK=false pnpm build`.
 
 ## Scripts
 
